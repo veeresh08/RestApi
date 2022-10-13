@@ -61,7 +61,7 @@ class MyControllerTest {
 	
 	@Test
 	@Order(1)
-	void getCourse_whenHitTheApi() throws Exception {
+	void getCourse_whenHitTheWApi() throws Exception {
 		//mock
 		List<Course> course = getCourses();
 		Mockito.when(courseDao.findAll()).thenReturn(course);
@@ -129,7 +129,7 @@ class MyControllerTest {
         //assertThat(result.getResponse().getStatus()).isEqualTo(HttpServletResponse.SC_OK);
 
         assertTrue(result.isPresent());
-     //   assertSame(result.get(), courses, "The widget course was not the same as the mock");
+     //   assertSame(result.get(), courses, "The course course was not the same as the mock");
 	}
 	
 	
@@ -145,20 +145,23 @@ class MyControllerTest {
 	        return null;
 	    }).when(courseDao).delete(Mockito.any());
 	    
-//	    courseService.updateCustomer(customer);
+	    
 	   //test
 	    courseDao.delete(courses);
+	    
+//		MvcResult result = this.mockMvc.perform(delete("/courses/1")).andReturn();
+//		assertThat(result.getResponse().getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+
 
 	    
+	    
+	    
 //		ResponseEntity<?> r=new ResponseEntity<>(HttpStatus.OK);
-//		
 //		Mockito.doNothing().when(courseDao).delete(Mockito.any());
 //		
 //		   MvcResult mvcResult = this.mockMvc.perform(delete("/courses/2")).andReturn();
 //		   int status = mvcResult.getResponse().getStatus();
-//		   
 //		   String result = mvcResult.getResponse().getContentAsString();
-//		   
 //		   assertEquals(status, r);
 //		
 //		//assert
@@ -166,13 +169,8 @@ class MyControllerTest {
 //		 //doReturn(r).when(courseDao.delete(courses));
 //		Mockito.when(courseDao.delete(Mockito.any())).thenReturn(r);
 //		courseDao.delete(entity);
-//		
-//		
 //		Mockito.doNothing().when(courseDao.delete(courses));
 
 	}
-	
-	
-	
 
 }
