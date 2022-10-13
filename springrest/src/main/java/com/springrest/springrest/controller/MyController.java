@@ -29,7 +29,6 @@ public class MyController {
 	}
 	
 	//get the courses
-	
 	@GetMapping("/courses")
 	public List<Course> getCourses(){
 		return this.courseService.getCourses();

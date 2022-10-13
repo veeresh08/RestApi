@@ -76,6 +76,7 @@ public class CourseServiceImpl implements CourseService {
 //		list=this.list.stream().filter(e->e.getId()!=parseLong).collect(Collectors.toList());
 		Course entity = courseDao.getOne(parseLong);
 		courseDao.delete(entity);
+
 	}
 
 }
