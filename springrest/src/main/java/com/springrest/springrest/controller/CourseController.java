@@ -2,6 +2,7 @@ package com.springrest.springrest.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springrest.springrest.dto.CourseDto;
 import com.springrest.springrest.entity.Course;
+import com.springrest.springrest.exception.CourseNotFoundException;
 import com.springrest.springrest.services.CourseService;
 
 @RestController
-public class MyController {
+public class CourseController {
 	
 	@Autowired
 	private CourseService courseService;
@@ -35,13 +38,13 @@ public class MyController {
 	}
 	
 	@GetMapping("/courses/{courseId}")
-	public Course getCourse(@PathVariable String courseId) {
+	public Course getCourse(@PathVariable String courseId) throws CourseNotFoundException {
 		return this.courseService.getCourse(Long.parseLong(courseId));
 	}
 	
 	//course add
 	@PostMapping("/courses")
-	public Course addCourse(@RequestBody Course course) {
+	public Course addCourse(@RequestBody @Valid CourseDto course) {
 		return this.courseService.addCourse(course);
 	}
 	

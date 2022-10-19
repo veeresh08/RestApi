@@ -2,6 +2,7 @@ package com.springrest.springrest.entity;
 
 import javax.persistence.Entity;
 
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,12 +27,10 @@ public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native",strategy = "native")
-	private long id;
+	private Long id;
 	
-	@Size(min = 3, max = 15,message = "Invalid size input")
 	private String title; //TODO string should be between 3 to 15
 	
-	@Pattern(regexp="^[A-Za-z\\s]*$",message = "Invalid pattern Input")
 	private String description;//TODO it need to accept only 30 chars
 
 	
