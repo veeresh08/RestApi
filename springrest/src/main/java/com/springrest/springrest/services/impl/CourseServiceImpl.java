@@ -1,12 +1,14 @@
-package com.springrest.springrest.services;
+package com.springrest.springrest.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springrest.springrest.dao.CourseDao;
 import com.springrest.springrest.entity.Course;
+import com.springrest.springrest.services.CourseService;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -74,8 +76,10 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public void deleteCourse(long parseLong) {
 //		list=this.list.stream().filter(e->e.getId()!=parseLong).collect(Collectors.toList());
-		Course entity = courseDao.getOne(parseLong);
-		courseDao.delete(entity);
+		Optional<Course> entity = courseDao.findById(parseLong);
+		if(entity.isPresent()) {
+			courseDao.delete(entity.get());
+		}
 
 	}
 
