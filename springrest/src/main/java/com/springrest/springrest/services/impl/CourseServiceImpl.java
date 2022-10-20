@@ -20,14 +20,11 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired
 	private CourseDao courseDao;
 
-//	List<Course> list;
 	public CourseServiceImpl() {
 	}
 
 	public CourseServiceImpl(Course course) {
-//		list = new ArrayList<>();
-//		list.add(new Course(145,"Java Core Course", "this course containts basics of java"));
-//		list.add(new Course(145,"Spring boot course", "Creating rest api using spring boot"));
+
 		courseDao.save(course);
 	}
 
@@ -37,18 +34,35 @@ public class CourseServiceImpl implements CourseService {
 		return courseDao.findAll();
 	}
 
+//	@Override
+//	public Course getCourse(long courseId) throws CourseNotFoundException {
+//		
+//		 Optional <Course> optional = CourseService.findById(courseId);
+//		
+//		
+//		if (courseDao.findById(courseId).isPresent()) {
+//			Course course = courseDao.findById(courseId).get();
+//			return course;
+//
+//		}else {
+//			throw new CourseNotFoundException("Course not found with id "+courseId);
+//		}
+//		
+//	}
+	
 	@Override
-	public Course getCourse(long courseId) throws CourseNotFoundException {
-
-		if (courseDao.findById(courseId).isPresent()) {
-			Course course = courseDao.findById(courseId).get();
-			return course;
-
-		}else {
-			throw new CourseNotFoundException("Course not found with id "+courseId);
-		}
+	public Optional <Course> getCourse(long courseId) throws CourseNotFoundException {
+//        return courseDao.findById(courseId);
+		  	  
+		Optional <Course> optional = courseDao.findById(courseId);
 		
-	}
+		if (optional.isPresent()) {
+			return courseDao.findById(courseId);
+        } else {
+        	throw new CourseNotFoundException("Course not found with id "+courseId);
+        }
+      
+    }
 
 	@Override
 	public Course addCourse(CourseDto courseDto) {
@@ -60,9 +74,11 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Course updateCourse(Course course) {
-		courseDao.save(course);
-		return course;
+	public Course updateCourse(CourseDto courseDto) {
+		Course course = new Course();
+		course.setDescription(courseDto.getDescription());
+		course.setTitle(courseDto.getTitle());;
+		return courseDao.save(course);
 	}
 
 	public void createCourse(Course course) {

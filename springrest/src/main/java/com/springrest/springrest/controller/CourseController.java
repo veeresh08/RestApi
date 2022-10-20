@@ -1,6 +1,7 @@
 package com.springrest.springrest.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,7 +39,7 @@ public class CourseController {
 	}
 	
 	@GetMapping("/courses/{courseId}")
-	public Course getCourse(@PathVariable String courseId) throws CourseNotFoundException {
+	public Optional<Course> getCourse(@PathVariable String courseId) throws CourseNotFoundException {
 		return this.courseService.getCourse(Long.parseLong(courseId));
 	}
 	
@@ -50,7 +51,7 @@ public class CourseController {
 	
 	//update course using PUT Request
 	@PutMapping("/courses")
-	public Course updateCourse(@RequestBody Course course) {
+	public Course updateCourse(@RequestBody CourseDto course) {
 		return this.courseService.updateCourse(course);
 	}
 	

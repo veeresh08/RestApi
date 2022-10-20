@@ -1,24 +1,23 @@
-package com.springrest.springrest.entity;
+package com.springrest.springrest.dto;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 @Builder
-public class Student {
-	
+public class StudentDto {
 	@Id
     @SequenceGenerator(
             name = "student_sequence",
@@ -30,6 +29,8 @@ public class Student {
             generator = "student_sequence"
     )
 	private Long studentId;
+	
+	@NotNull
 	private String firstName;
 	private String lastName;
 	
@@ -38,5 +39,4 @@ public class Student {
             nullable = false
     )
 	private String emailId;
-	
 }
