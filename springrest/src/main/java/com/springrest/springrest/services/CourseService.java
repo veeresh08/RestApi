@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import com.springrest.springrest.dto.CourseDto;
 import com.springrest.springrest.entity.Course;
+//import com.springrest.springrest.entity.Department;
 import com.springrest.springrest.exception.CourseNotFoundException;
 
 public interface CourseService {
 
 	public List<Course> getCourses();
 	
-	public Optional<Course> getCourse(long courseId) throws CourseNotFoundException;
+	public Course getCourse(long courseId) throws CourseNotFoundException;
 	
 //	public Course updateCourse(Course course);
 	
@@ -20,6 +21,9 @@ public interface CourseService {
 	Course addCourse(CourseDto courseDto);
 
 	Course updateCourse(CourseDto courseDto);
+	
+	Course fetchCourseByTitle(String title);
+
 	
 	
 }

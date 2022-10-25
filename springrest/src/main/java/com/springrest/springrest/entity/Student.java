@@ -1,11 +1,20 @@
 package com.springrest.springrest.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,18 +26,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name = "tbl_student"//,
+//        uniqueConstraints = @UniqueConstraint(
+//                name = "emailid_unique",
+//                columnNames = "email_address"
+//        )
+)
 public class Student {
 	
 	@Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.AUTO,
-            generator = "student_sequence"
-    )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long studentId;
 	private String firstName;
 	private String lastName;
@@ -38,5 +46,23 @@ public class Student {
             nullable = false
     )
 	private String emailId;
+	
+	
+
+ 	
+ 	@ManyToMany(
+		 	fetch = FetchType.LAZY,
+            cascade  = CascadeType.ALL
+    )
+    @JoinTable(
+            name = "studen_course_mapping",
+            joinColumns = {
+            @JoinColumn(name = "student_id",referencedColumnName = "studentId")
+            },
+            inverseJoinColumns = {
+            		@JoinColumn(name = "course_id", referencedColumnName = "id")
+    })
+ 	@JsonBackReference
+	private List<Course> courses;
 	
 }

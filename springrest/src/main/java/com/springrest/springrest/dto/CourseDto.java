@@ -23,4 +23,6 @@ public class CourseDto {
 	@Pattern(regexp="^[A-Za-z\\s]*$",message = "Invalid pattern Input")
 	private String description;//TODO it need to accept only 30 chars
 	
+	private Long credits;
+	
 }

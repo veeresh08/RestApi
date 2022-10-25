@@ -1,7 +1,6 @@
 package com.springrest.springrest.services.impl;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import com.springrest.springrest.dao.CourseDao;
 import com.springrest.springrest.dto.CourseDto;
 import com.springrest.springrest.entity.Course;
 import com.springrest.springrest.exception.CourseNotFoundException;
-
 import com.springrest.springrest.services.CourseService;
 
 @Service
@@ -19,6 +17,9 @@ public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	private CourseDao courseDao;
+	
+
+	private Course course;
 
 	public CourseServiceImpl() {
 	}
@@ -51,14 +52,15 @@ public class CourseServiceImpl implements CourseService {
 //	}
 	
 	@Override
-	public Optional <Course> getCourse(long courseId) throws CourseNotFoundException {
+	public Course getCourse(long courseId) throws CourseNotFoundException {
 //        return courseDao.findById(courseId);
 		  	  
 		Optional <Course> optional = courseDao.findById(courseId);
 		
 		if (optional.isPresent()) {
-			return courseDao.findById(courseId);
-        } else {
+//			return courseDao.findById(courseId);
+			return optional.get();
+			} else {
         	throw new CourseNotFoundException("Course not found with id "+courseId);
         }
       
@@ -67,12 +69,16 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public Course addCourse(CourseDto courseDto) {
 		Course course = new Course();
-		course.setDescription(courseDto.getDescription());
 		course.setTitle(courseDto.getTitle());
+		course.setDescription(courseDto.getDescription());
+		course.setCredits(courseDto.getCredits());
 		return courseDao.save(course);
 
 	}
-
+	
+	public void saveCourse(Course course) {
+		courseDao.save(course);
+	}
 	@Override
 	public Course updateCourse(CourseDto courseDto) {
 		Course course = new Course();
@@ -92,6 +98,11 @@ public class CourseServiceImpl implements CourseService {
 			courseDao.delete(entity.get());
 		}
 
+	}
+
+	@Override
+	public Course fetchCourseByTitle(String title) {
+		return courseDao.findByTitleIgnoreCase(title);
 	}
 
 }

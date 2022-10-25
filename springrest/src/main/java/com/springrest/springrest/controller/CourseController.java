@@ -1,8 +1,8 @@
 package com.springrest.springrest.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +16,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springrest.springrest.dao.CourseDao;
 import com.springrest.springrest.dto.CourseDto;
 import com.springrest.springrest.entity.Course;
+//import com.springrest.springrest.entity.Department;
 import com.springrest.springrest.exception.CourseNotFoundException;
-import com.springrest.springrest.services.CourseService;
+//import com.springrest.springrest.services.CourseService;
+import com.springrest.springrest.services.impl.CourseServiceImpl;
 
 @RestController
 public class CourseController {
 	
 	@Autowired
-	private CourseService courseService;
+	private CourseServiceImpl courseService;
+	
+
+//	private Course course;
+	
+	@Autowired
+	private CourseDao courseDao;
 	
 	@GetMapping("/home")
 	public String home() {
@@ -39,7 +48,7 @@ public class CourseController {
 	}
 	
 	@GetMapping("/courses/{courseId}")
-	public Optional<Course> getCourse(@PathVariable String courseId) throws CourseNotFoundException {
+	public Course getCourse(@PathVariable String courseId) throws CourseNotFoundException {
 		return this.courseService.getCourse(Long.parseLong(courseId));
 	}
 	
@@ -48,6 +57,26 @@ public class CourseController {
 	public Course addCourse(@RequestBody @Valid CourseDto course) {
 		return this.courseService.addCourse(course);
 	}
+	
+	@Transactional(rollbackOn=NumberFormatException.class)
+	@PostMapping("/setCourse")
+	public String setData(@RequestBody @Valid CourseDto courseDto) {
+//		return this.courseService.addCourse(course);
+		
+		Course course = new Course();
+		course.setTitle(courseDto.getTitle());
+		course.setDescription(courseDto.getDescription());
+		course.setCredits(courseDto.getCredits());
+		
+		courseService.saveCourse(course);
+		
+		if(courseDto.getCredits()==0) {
+			throw new NumberFormatException();
+		}
+		return "Data Inserted sucessfully";
+	}
+	
+	
 	
 	//update course using PUT Request
 	@PutMapping("/courses")
@@ -66,6 +95,11 @@ public class CourseController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/course/name/{name}")
+	 public Course fetchCourseByName(@PathVariable("name") String title) {
+	        return courseDao.findByTitleIgnoreCase(title);
+	 }
 	
 	
 }
