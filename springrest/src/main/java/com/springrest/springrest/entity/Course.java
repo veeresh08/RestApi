@@ -31,6 +31,7 @@ public class Course {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native",strategy = "native")
 	private Long id;
+		
 
 	private String title; //TODO string should be between 3 to 15
 
@@ -42,6 +43,5 @@ public class Course {
 		@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
 	 	@JsonBackReference
 	    private List<Student> students;
-		
-		
+			
 }

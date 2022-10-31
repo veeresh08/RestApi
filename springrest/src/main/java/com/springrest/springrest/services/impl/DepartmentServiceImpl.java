@@ -1,16 +1,19 @@
- package com.springrest.springrest.services.impl;
+package com.springrest.springrest.services.impl;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.springrest.springrest.dao.DepartmentDao;
 import com.springrest.springrest.dto.DepartmentDto;
 //import com.springrest.springrest.dto.DepartmentDto;
 import com.springrest.springrest.entity.Department;
+import com.springrest.springrest.exception.DepartmentNotFouncException;
+import com.springrest.springrest.exception.ErrorEnum;
 import com.springrest.springrest.services.DepartmentService;
 
 @Service
@@ -18,19 +21,11 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Autowired
 	private DepartmentDao departmentDao;
-	
-	
+
+
 	@Override
 	public List<Department> getDepartments() {
 		return departmentDao.findAll();
-	}
-
-	@Override
-	public Department getDepartment(Long departmentId)  {
-		Optional<Department> department =
-				departmentDao.findById(departmentId);
-
-		return  department.get();
 	}
 
 	@Override
@@ -39,11 +34,25 @@ public class DepartmentServiceImpl implements DepartmentService{
 		department.setDepartmentName(departmentDto.getDepartmentName());
 		department.setDepartmentAddress(departmentDto.getDepartmentAddress());
 		department.setDepartmentCode(departmentDto.getDepartmentCode());
-	
+
 		return departmentDao.save(department);
-		
-//		return departmentDao.save(department);
+
+		//		return departmentDao.save(department);
 	}
+
+	@Override
+	public Department getDepartment(Long departmentId) throws DepartmentNotFouncException {
+		Optional<Department> department =
+				departmentDao.findById(departmentId);
+		if(department.isPresent()) {
+			return department.get();
+		}else {
+			throw new DepartmentNotFouncException(ErrorEnum.DEPARTMENT_NOT_FOUND, HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
+
 
 
 	@Override
@@ -54,7 +63,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public Department updateDepartment(Long departmentId, DepartmentDto departmentDto) {
 		Department depDB = departmentDao.findById(departmentId).get();
-		
+
 
 		if(Objects.nonNull(departmentDto.getDepartmentName()) &&
 				!"".equalsIgnoreCase(departmentDto.getDepartmentName())) {
@@ -72,7 +81,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 		}
 
 		return departmentDao.save(depDB);
-		
+
 	}
 
 	@Override

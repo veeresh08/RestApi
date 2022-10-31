@@ -26,6 +26,7 @@ public class StudentCourseController {
         this.courseRepository = courseRepository;
     }
     
+    //Posting one student enrolled in many courses
     @PostMapping
     public Student saveStudentWithCourse(@RequestBody Student student){
       return studentRepository.save(student);

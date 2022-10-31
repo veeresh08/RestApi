@@ -5,12 +5,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.springrest.springrest.dao.StudentDao;
 import com.springrest.springrest.dto.StudentDto;
 import com.springrest.springrest.entity.Student;
-import com.springrest.springrest.exception.CourseNotFoundException;
+import com.springrest.springrest.exception.ErrorEnum;
+import com.springrest.springrest.exception.StudentNotFoundException;
 import com.springrest.springrest.services.StudentService;
 
 @Service
@@ -42,15 +44,15 @@ public class StudentServiceImp implements StudentService{
 	}
 
 	@Override
-	public Optional<Student> getStudent(long studentId) throws CourseNotFoundException {
-		//      return courseDao.findById(courseId);
-
+	public Student getStudent(long studentId) throws StudentNotFoundException {
+	
 		Optional <Student> optional = studentDao.findById(studentId);
 
 		if (optional.isPresent()) {
-			return studentDao.findById(studentId);
+			return  optional.get();
+//			return Optional.empty();
 		} else {
-			throw new CourseNotFoundException("Student not found with id "+studentId);
+			throw new StudentNotFoundException(ErrorEnum.STUDENT_NOT_FOUND, HttpStatus.NOT_FOUND);
 		}
 	}
 

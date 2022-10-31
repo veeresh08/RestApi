@@ -26,9 +26,11 @@ class CourseServiceTest {
 	    }
 
 	    @Test
-	    void getAllPerson() {
-	    	courseService.getCourses();
-	        verify(courseDao).findAll();
+	    void getAllCourse() {
+	    	
+	    	
+//	    	courseService.getCourses();
+//	        verify(courseDao).findAll();
 	    }
 
 }

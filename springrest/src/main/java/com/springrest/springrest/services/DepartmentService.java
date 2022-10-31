@@ -5,6 +5,7 @@ import java.util.List;
 import com.springrest.springrest.dto.DepartmentDto;
 //import com.springrest.springrest.dto.DepartmentDto;
 import com.springrest.springrest.entity.Department;
+import com.springrest.springrest.exception.DepartmentNotFouncException;
 
 
 
@@ -12,7 +13,7 @@ public interface DepartmentService {
 	
 	public List<Department> getDepartments();
 	
-	public Department getDepartment(Long departmentId); //throws DepartmentNotFouncException;
+	public Department getDepartment(Long departmentId)throws DepartmentNotFouncException;
 	
 	public Department addDepartment(DepartmentDto departmentDto);
 	

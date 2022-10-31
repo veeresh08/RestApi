@@ -1,29 +1,28 @@
 package com.springrest.springrest.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.springrest.springrest.dto.CourseDto;
 import com.springrest.springrest.entity.Course;
 //import com.springrest.springrest.entity.Department;
 import com.springrest.springrest.exception.CourseNotFoundException;
+import com.springrest.springrest.exception.CustomException;
 
 public interface CourseService {
 
 	public List<Course> getCourses();
 	
-	public Course getCourse(long courseId) throws CourseNotFoundException;
+	public Course getCourse(long courseId) throws CustomException;
 	
-//	public Course updateCourse(Course course);
-	
-	public void deleteCourse(long parseLong);
+	public void deleteCourse(long parseLong) throws CustomException;
 
+	public Course saveCourse(Course course);
+	
 	Course addCourse(CourseDto courseDto);
 
-	Course updateCourse(CourseDto courseDto);
+	Course updateCourse(CourseDto courseDto) throws CourseNotFoundException;
 	
 	Course fetchCourseByTitle(String title);
 
-	
-	
+		
 }
